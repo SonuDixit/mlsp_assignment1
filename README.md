@@ -1,4 +1,5 @@
-# mlsp_assignment14. Fischer faces - Data is posted here
+# mlsp_assignment1
+4. Fischer faces - Data is posted here
 15 subject faces with happy/sad emotion are provided in the data. Each image is of
 100x100 matrix. Perform PCA on to reduce the dimension from 10000 to K (using
 PCA for high dimensional data) and then perform LDA to one dimension. Plot the one
