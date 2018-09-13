@@ -18,12 +18,12 @@ def prepare_data_applying_trian_window(data_1d,window_length=400,shift=160):
         data[i,:] = data_1d[i*shift : i*shift + window_length] * window_to_mult
     return data
 
-def apply_fft(data,output_len=128):
+def apply_fft_take_log(data,output_len=128):
     fft_data = np.zeros(shape=(data.shape[0],128))
     for i in range(data.shape[0]):
         a = np.fft.rfft(data[i,:],n=256)
         fft_data[i] = np.delete(a,-1)
-    return fft_data
+    return np.log(np.abs(fft_data))
 
 def whitening(data):
     #data is nXd
@@ -39,6 +39,7 @@ def whitening(data):
 def get_cov(data):
     means = np.mean(data,axis=0)
     return np.matmul((data-means).T,data-means)
+
 def get_sum_nonzero_nondiag(mat):
     s=0
     for i in range(mat.shape[0]):
@@ -53,19 +54,20 @@ def part_a():
     """
     fs, data = wavfile.read(path + "clean.wav")
     data = prepare_data_applying_trian_window(data)
-    data = apply_fft(data)
+    data = apply_fft_take_log(data)
     means = np.mean(data,axis=0)
     w_data, mat_to_mult = whitening(data)
-    
+#    print(np.mean(w_data,axis=0))
     fs, noisy_data = wavfile.read(path + "noisy.wav")
     noisy_data = prepare_data_applying_trian_window(noisy_data)
-    noisy_data = apply_fft(noisy_data)
+    noisy_data = apply_fft_take_log(noisy_data)
     ####applying the transformation
     noisy_data = noisy_data - means
     whitened_noisy_data = np.matmul(mat_to_mult,noisy_data.T).T
     #get cov matrix of this data
     cov_whiten = get_cov(whitened_noisy_data)
     sum_nonzero = get_sum_nonzero_nondiag(cov_whiten)
+    print("for part a:")
     print(sum_nonzero/(whitened_noisy_data.shape[0] * (whitened_noisy_data.shape[0]-1)))
 
 def part_b():
@@ -74,19 +76,20 @@ def part_b():
     """
     fs, data = wavfile.read(path + "noisy.wav")
     data = prepare_data_applying_trian_window(data)
-    data = apply_fft(data)
+    data = apply_fft_take_log(data)
     means = np.mean(data,axis=0)
     w_data, mat_to_mult = whitening(data)
     
     fs, noisy_data = wavfile.read(path + "clean.wav")
     noisy_data = prepare_data_applying_trian_window(noisy_data)
-    noisy_data = apply_fft(noisy_data)
+    noisy_data = apply_fft_take_log(noisy_data)
     ####applying the transformation
     noisy_data = noisy_data - means
     whitened_noisy_data = np.matmul(mat_to_mult,noisy_data.T).T
     #get cov matrix of this data
     cov_whiten = get_cov(whitened_noisy_data)
     sum_nonzero = get_sum_nonzero_nondiag(cov_whiten)
+    print("for part b:")
     print(sum_nonzero/(whitened_noisy_data.shape[0] * (whitened_noisy_data.shape[0]-1)))
     
 part_a()
