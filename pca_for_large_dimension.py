@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep  7 15:41:05 2018
 
-@author: vissim
-"""
 import numpy as np
 def pca(data,num_components):
     #data is mean 0 data.
