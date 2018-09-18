@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Sep  7 17:28:40 2018
 
-@author: vissim
-"""
 import numpy as np
 def LDA_to_1dim(data,label):
     #calculate distance between mean in new coordinates
