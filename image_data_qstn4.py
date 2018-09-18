@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Sep  8 11:44:26 2018
 
-@author: vissim
-"""
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import imread
 from pca_for_large_dimension import pca
